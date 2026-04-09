@@ -1,4 +1,5 @@
-import { Connection } from '@solana/web3.js'
+import { Connection, PublicKey } from '@solana/web3.js'
+import { calcCost } from '../core/cost-calc'
 
 interface AnalyzeOpts {
   network: string
@@ -13,15 +14,20 @@ export async function analyze(programId: string, opts: AnalyzeOpts) {
 
   const conn = new Connection(rpc)
 
-  // fetch program accounts
   try {
-    const accounts = await conn.getProgramAccounts(
-      // @ts-expect-error -- will validate in next phase
-      programId,
-      { dataSlice: { offset: 0, length: 0 } }
-    )
+    const pubkey = new PublicKey(programId)
+    const accounts = await conn.getProgramAccounts(pubkey, {
+      dataSlice: { offset: 0, length: 0 },
+    })
+
     console.log(`found ${accounts.length} accounts`)
-    console.log('detailed analysis coming soon')
+
+    if (accounts.length > 0) {
+      const report = calcCost(128, accounts.length)
+      console.log(`estimated rent: ${(report.regularCost / 1e9).toFixed(4)} SOL`)
+      console.log(`compressed:     ${(report.compressedCost / 1e9).toFixed(4)} SOL`)
+      console.log(`savings:        ${report.savingsPct}%`)
+    }
   } catch (e) {
     console.error(`error: ${e instanceof Error ? e.message : e}`)
     process.exit(1)
