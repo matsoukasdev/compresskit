@@ -4,6 +4,8 @@ import { Command } from 'commander'
 import { analyze } from './commands/analyze'
 import { cost } from './commands/cost'
 import { template } from './commands/template'
+import { migrate } from './commands/migrate'
+import { verify } from './commands/verify'
 
 const cli = new Command()
 
@@ -29,5 +31,18 @@ cli
   .option('-o, --output <dir>', 'output directory', '.')
   .description('scaffold compressed project (loyalty, gaming, social)')
   .action(template)
+
+cli
+  .command('migrate <programId>')
+  .option('-n, --network <network>', 'devnet or mainnet', 'devnet')
+  .option('-o, --output <dir>', 'output directory', '.')
+  .description('generate migration plan for ZK compression')
+  .action(migrate)
+
+cli
+  .command('verify <programId>')
+  .option('-n, --network <network>', 'devnet or mainnet', 'devnet')
+  .description('verify compression migration status')
+  .action(verify)
 
 cli.parse()
