@@ -4,5 +4,6 @@ build/
 .env
 *.log
 .DS_Store
+*.tsbuildinfo
 WORKLOG.md
 REVIEWS.md
