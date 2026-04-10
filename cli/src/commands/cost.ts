@@ -1,5 +1,6 @@
 import { Connection, PublicKey } from '@solana/web3.js'
 import { calcCost } from '../core/cost-calc'
+import { spinner, heading, tableHeader, tableRow, divider, solValue, savingsHighlight, success, handleError } from '../core/output'
 
 interface CostOpts {
   network: string
@@ -10,31 +11,37 @@ export async function cost(programId: string, opts: CostOpts) {
     ? process.env.RPC_URL || 'https://api.mainnet-beta.solana.com'
     : process.env.DEVNET_RPC_URL || 'https://api.devnet.solana.com'
 
-  console.log(`\ncost comparison for ${programId} on ${opts.network}\n`)
+  await heading(`compresskit cost — ${opts.network}`)
 
-  const conn = new Connection(rpc)
+  const spin = await spinner(`loading accounts for ${programId}...`)
+  spin.start()
 
   try {
     const pubkey = new PublicKey(programId)
+    const conn = new Connection(rpc)
     const accounts = await conn.getProgramAccounts(pubkey)
 
     if (accounts.length === 0) {
-      console.log('no accounts found')
+      spin.info('no accounts found')
       return
     }
 
-    // group by size for detailed breakdown
+    spin.succeed(`${accounts.length} accounts loaded`)
+
     const sizeGroups: Record<number, number> = {}
     for (const acc of accounts) {
       const size = acc.account.data.length
       sizeGroups[size] = (sizeGroups[size] || 0) + 1
     }
 
+    const cols = ['size', 'count', 'regular', 'compressed', 'savings']
+    const widths = [12, 8, 16, 16, 10]
+
+    console.log('')
+    await tableHeader(cols, widths)
+
     let totalRegular = 0
     let totalCompressed = 0
-
-    console.log('size (bytes)  count    regular rent     compressed      savings')
-    console.log('─'.repeat(70))
 
     for (const [sizeStr, count] of Object.entries(sizeGroups)) {
       const size = Number(sizeStr)
@@ -42,21 +49,41 @@ export async function cost(programId: string, opts: CostOpts) {
       totalRegular += report.regularCost
       totalCompressed += report.compressedCost
 
-      const reg = (report.regularCost / 1e9).toFixed(4).padStart(12)
-      const comp = (report.compressedCost / 1e9).toFixed(4).padStart(12)
-      console.log(
-        `${String(size).padEnd(14)}${String(count).padEnd(9)}${reg} SOL  ${comp} SOL  ${report.savingsPct}%`
+      await tableRow(
+        [
+          `${size} B`,
+          String(count),
+          await solValue(report.regularCost),
+          await solValue(report.compressedCost),
+          `${report.savingsPct}%`,
+        ],
+        widths,
+        [4]
       )
     }
 
-    console.log('─'.repeat(70))
-    console.log(
-      `total         ${String(accounts.length).padEnd(9)}${(totalRegular / 1e9).toFixed(4).padStart(12)} SOL  ${(totalCompressed / 1e9).toFixed(4).padStart(12)} SOL  ${Math.round((1 - totalCompressed / totalRegular) * 100)}%`
+    await divider(widths.reduce((a, b) => a + b, 0))
+
+    const totalPct = totalRegular > 0
+      ? Math.round((1 - totalCompressed / totalRegular) * 100)
+      : 0
+
+    await tableRow(
+      [
+        'TOTAL',
+        String(accounts.length),
+        await solValue(totalRegular),
+        await solValue(totalCompressed),
+        await savingsHighlight(totalPct),
+      ],
+      widths,
+      [4]
     )
-    console.log(`\nyou save ${((totalRegular - totalCompressed) / 1e9).toFixed(4)} SOL with ZK compression`)
+
+    await success(`save ${await solValue(totalRegular - totalCompressed)} with ZK compression`)
 
   } catch (e) {
-    console.error(`error: ${e instanceof Error ? e.message : e}`)
-    process.exit(1)
+    spin.fail('cost analysis failed')
+    handleError(e)
   }
 }
