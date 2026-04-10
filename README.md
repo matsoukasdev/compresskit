@@ -14,22 +14,22 @@ npm install -g compresskit
 # Analyze a program for compression opportunities
 compresskit analyze <PROGRAM_ID>
 
-# Output
-┌──────────────────────────────────┐
-│ CompressKit Analysis Report      │
-├──────────────┬───────────────────┤
-│ Accounts     │ 1,247             │
-│ Total Size   │ 892 KB            │
-│ Compressed   │ ~31 KB (96% save) │
-│ Annual Cost  │ 2.1 → 0.07 SOL   │
-└──────────────┴───────────────────┘
-
-# Generate migration
-compresskit migrate <PROGRAM_ID> --out ./migration
-
-# Estimate costs
+# Compare regular vs compressed costs
 compresskit cost <PROGRAM_ID>
+
+# Generate migration plan
+compresskit migrate <PROGRAM_ID> --output ./migration
+
+# Verify migration status
+compresskit verify <PROGRAM_ID>
+
+# Scaffold a compressed project template
+compresskit template loyalty --output ./my-project
 ```
+
+## Options
+
+All commands accept `-n, --network <devnet|mainnet>` (default: `devnet`).
 
 ## Stack
 
@@ -38,8 +38,9 @@ TypeScript CLI (commander.js) + Light Protocol SDK
 ## Dev
 
 ```bash
+cd cli
 npm install && npm run build
-node bin/compresskit.js analyze <PROGRAM_ID>
+node dist/index.js analyze <PROGRAM_ID>
 ```
 
 ## License

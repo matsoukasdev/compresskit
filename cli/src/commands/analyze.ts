@@ -11,9 +11,9 @@ export async function analyze(programId: string, opts: AnalyzeOpts) {
     ? process.env.RPC_URL || 'https://api.mainnet-beta.solana.com'
     : process.env.DEVNET_RPC_URL || 'https://api.devnet.solana.com'
 
-  await heading(`compresskit analyze`)
+  heading(`compresskit analyze`)
 
-  const spin = await spinner(`scanning ${programId} on ${opts.network}...`)
+  const spin = spinner(`scanning ${programId} on ${opts.network}...`)
   spin.start()
 
   try {
@@ -24,7 +24,7 @@ export async function analyze(programId: string, opts: AnalyzeOpts) {
     spin.succeed(`found ${accounts.length} accounts`)
 
     if (accounts.length === 0) {
-      await info('status', 'no accounts — nothing to compress')
+      info('status', 'no accounts — nothing to compress')
       return
     }
 
@@ -40,14 +40,14 @@ export async function analyze(programId: string, opts: AnalyzeOpts) {
     const report = calcCost(avgSize, accounts.length)
 
     console.log('')
-    await info('accounts', accounts.length)
-    await info('size groups', Object.keys(sizeGroups).length)
-    await info('avg size', `${avgSize} bytes`)
-    await divider(40)
-    await info('estimated rent', await solValue(report.regularCost))
-    await info('compressed', await solValue(report.compressedCost))
-    await info('savings', await savingsHighlight(report.savingsPct))
-    await success(`run 'compresskit cost ${programId}' for breakdown`)
+    info('accounts', accounts.length)
+    info('size groups', Object.keys(sizeGroups).length)
+    info('avg size', `${avgSize} bytes`)
+    divider(40)
+    info('estimated rent', solValue(report.regularCost))
+    info('compressed', solValue(report.compressedCost))
+    info('savings', savingsHighlight(report.savingsPct))
+    success(`run 'compresskit cost ${programId}' for breakdown`)
 
   } catch (e) {
     spin.fail('analysis failed')

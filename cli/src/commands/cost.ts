@@ -11,9 +11,9 @@ export async function cost(programId: string, opts: CostOpts) {
     ? process.env.RPC_URL || 'https://api.mainnet-beta.solana.com'
     : process.env.DEVNET_RPC_URL || 'https://api.devnet.solana.com'
 
-  await heading(`compresskit cost — ${opts.network}`)
+  heading(`compresskit cost — ${opts.network}`)
 
-  const spin = await spinner(`loading accounts for ${programId}...`)
+  const spin = spinner(`loading accounts for ${programId}...`)
   spin.start()
 
   try {
@@ -38,7 +38,7 @@ export async function cost(programId: string, opts: CostOpts) {
     const widths = [12, 8, 16, 16, 10]
 
     console.log('')
-    await tableHeader(cols, widths)
+    tableHeader(cols, widths)
 
     let totalRegular = 0
     let totalCompressed = 0
@@ -49,12 +49,12 @@ export async function cost(programId: string, opts: CostOpts) {
       totalRegular += report.regularCost
       totalCompressed += report.compressedCost
 
-      await tableRow(
+      tableRow(
         [
           `${size} B`,
           String(count),
-          await solValue(report.regularCost),
-          await solValue(report.compressedCost),
+          solValue(report.regularCost),
+          solValue(report.compressedCost),
           `${report.savingsPct}%`,
         ],
         widths,
@@ -62,25 +62,25 @@ export async function cost(programId: string, opts: CostOpts) {
       )
     }
 
-    await divider(widths.reduce((a, b) => a + b, 0))
+    divider(widths.reduce((a, b) => a + b, 0))
 
     const totalPct = totalRegular > 0
       ? Math.round((1 - totalCompressed / totalRegular) * 100)
       : 0
 
-    await tableRow(
+    tableRow(
       [
         'TOTAL',
         String(accounts.length),
-        await solValue(totalRegular),
-        await solValue(totalCompressed),
-        await savingsHighlight(totalPct),
+        solValue(totalRegular),
+        solValue(totalCompressed),
+        savingsHighlight(totalPct),
       ],
       widths,
       [4]
     )
 
-    await success(`save ${await solValue(totalRegular - totalCompressed)} with ZK compression`)
+    success(`save ${solValue(totalRegular - totalCompressed)} with ZK compression`)
 
   } catch (e) {
     spin.fail('cost analysis failed')

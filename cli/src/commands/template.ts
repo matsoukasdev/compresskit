@@ -1,4 +1,4 @@
-import { heading, info, success, handleError } from '../core/output'
+import { heading, info, success } from '../core/output'
 
 interface TemplateOpts {
   output: string
@@ -6,16 +6,16 @@ interface TemplateOpts {
 
 const VALID = ['loyalty', 'gaming', 'social']
 
-export async function template(type: string, opts: TemplateOpts) {
+export function template(type: string, opts: TemplateOpts) {
   if (!VALID.includes(type)) {
     console.error(`\n  error: unknown template '${type}'`)
     console.error(`  valid types: ${VALID.join(', ')}`)
     process.exit(1)
   }
 
-  await heading(`compresskit template — ${type}`)
-  await info('type', type)
-  await info('output', opts.output)
-  await info('status', 'scaffolding...')
-  await success(`${type} template ready at ${opts.output}`)
+  heading(`compresskit template — ${type}`)
+  info('type', type)
+  info('output', opts.output)
+  info('status', 'scaffolding...')
+  success(`${type} template ready at ${opts.output}`)
 }

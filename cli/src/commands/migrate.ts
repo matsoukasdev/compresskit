@@ -12,17 +12,15 @@ export async function migrate(programId: string, opts: MigrateOpts) {
     ? process.env.RPC_URL || 'https://api.mainnet-beta.solana.com'
     : process.env.DEVNET_RPC_URL || 'https://api.devnet.solana.com'
 
-  await heading(`compresskit migrate — ${opts.network}`)
+  heading(`compresskit migrate — ${opts.network}`)
 
-  const spin = await spinner(`scanning ${programId}...`)
+  const spin = spinner(`scanning ${programId}...`)
   spin.start()
 
   try {
     const pubkey = new PublicKey(programId)
     const conn = new Connection(rpc)
-    const accounts = await conn.getProgramAccounts(pubkey, {
-      dataSlice: { offset: 0, length: 0 },
-    })
+    const accounts = await conn.getProgramAccounts(pubkey)
 
     if (accounts.length === 0) {
       spin.info('no accounts found for this program')
@@ -46,19 +44,19 @@ export async function migrate(programId: string, opts: MigrateOpts) {
       const report = calcCost(size, count)
       totalSavings += report.regularCost - report.compressedCost
 
-      await info(`step ${step}`, `compress ${count} accounts (${size} bytes)`)
-      await info('  rent', await solValue(report.regularCost))
-      await info('  compressed', await solValue(report.compressedCost))
-      await info('  savings', `${report.savingsPct}%`)
+      info(`step ${step}`, `compress ${count} accounts (${size} bytes)`)
+      info('  rent', solValue(report.regularCost))
+      info('  compressed', solValue(report.compressedCost))
+      info('  savings', `${report.savingsPct}%`)
       console.log('')
       step++
     }
 
-    await divider(40)
-    await info('total savings', await solValue(totalSavings))
-    await info('output dir', opts.output)
-    await warn('code generation coming in next release')
-    await success('migration plan generated')
+    divider(40)
+    info('total savings', solValue(totalSavings))
+    info('output dir', opts.output)
+    warn('code generation coming in next release')
+    success('migration plan generated')
 
   } catch (e) {
     spin.fail('migration planning failed')

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { Command } from 'commander'
+import { Command, Option } from 'commander'
 import { analyze } from './commands/analyze'
 import { cost } from './commands/cost'
 import { template } from './commands/template'
@@ -9,6 +9,11 @@ import { verify } from './commands/verify'
 
 const cli = new Command()
 
+const networkOption = () =>
+  new Option('-n, --network <network>', 'devnet or mainnet')
+    .choices(['devnet', 'mainnet'])
+    .default('devnet')
+
 cli
   .name('compresskit')
   .version('0.1.0')
@@ -16,13 +21,13 @@ cli
 
 cli
   .command('analyze <programId>')
-  .option('-n, --network <network>', 'devnet or mainnet', 'devnet')
+  .addOption(networkOption())
   .description('analyze program accounts for compression')
   .action(analyze)
 
 cli
   .command('cost <programId>')
-  .option('-n, --network <network>', 'devnet or mainnet', 'devnet')
+  .addOption(networkOption())
   .description('compare regular vs compressed costs')
   .action(cost)
 
@@ -34,14 +39,14 @@ cli
 
 cli
   .command('migrate <programId>')
-  .option('-n, --network <network>', 'devnet or mainnet', 'devnet')
+  .addOption(networkOption())
   .option('-o, --output <dir>', 'output directory', '.')
   .description('generate migration plan for ZK compression')
   .action(migrate)
 
 cli
   .command('verify <programId>')
-  .option('-n, --network <network>', 'devnet or mainnet', 'devnet')
+  .addOption(networkOption())
   .description('verify compression migration status')
   .action(verify)
 

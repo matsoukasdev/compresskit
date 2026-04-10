@@ -1,82 +1,58 @@
 /**
  * CLI output utilities — chalk tables, ora spinners, error formatting.
- * Uses dynamic import() for ESM-only deps (chalk v5, ora v8).
  */
 
-let chalkInstance: typeof import('chalk').default | null = null
-let oraFactory: typeof import('ora').default | null = null
+import chalk from 'chalk'
+import ora from 'ora'
 
-async function getChalk() {
-  if (!chalkInstance) {
-    chalkInstance = (await import('chalk')).default
-  }
-  return chalkInstance
-}
-
-async function getOra() {
-  if (!oraFactory) {
-    oraFactory = (await import('ora')).default
-  }
-  return oraFactory
-}
-
-export async function spinner(text: string) {
-  const ora = await getOra()
+export function spinner(text: string) {
   return ora({ text, color: 'cyan' })
 }
 
-export async function heading(text: string) {
-  const c = await getChalk()
-  console.log(`\n${c.bold.white(text)}\n`)
+export function heading(text: string) {
+  console.log(`\n${chalk.bold.white(text)}\n`)
 }
 
-export async function info(label: string, value: string | number) {
-  const c = await getChalk()
-  console.log(`  ${c.gray(label.padEnd(18))}${c.white(String(value))}`)
+export function info(label: string, value: string | number) {
+  console.log(`  ${chalk.gray(label.padEnd(18))}${chalk.white(String(value))}`)
 }
 
-export async function success(text: string) {
-  const c = await getChalk()
-  console.log(`\n  ${c.green('✓')} ${c.green(text)}`)
+export function success(text: string) {
+  console.log(`\n  ${chalk.green('✓')} ${chalk.green(text)}`)
 }
 
-export async function warn(text: string) {
-  const c = await getChalk()
-  console.log(`  ${c.yellow('⚠')} ${c.yellow(text)}`)
+export function warn(text: string) {
+  console.log(`  ${chalk.yellow('⚠')} ${chalk.yellow(text)}`)
 }
 
-export async function divider(width: number = 60) {
-  const c = await getChalk()
-  console.log(c.gray('─'.repeat(width)))
+export function divider(width: number = 60) {
+  console.log(chalk.gray('─'.repeat(width)))
 }
 
-export async function tableHeader(columns: string[], widths: number[]) {
-  const c = await getChalk()
-  const header = columns.map((col, i) => c.gray(col.padEnd(widths[i]))).join('')
+export function tableHeader(columns: string[], widths: number[]) {
+  const header = columns.map((col, i) => chalk.gray(col.padEnd(widths[i]))).join('')
   console.log(header)
-  await divider(widths.reduce((a, b) => a + b, 0))
+  divider(widths.reduce((a, b) => a + b, 0))
 }
 
-export async function tableRow(values: string[], widths: number[], highlights?: number[]) {
-  const c = await getChalk()
+export function tableRow(values: string[], widths: number[], highlights?: number[]) {
   const row = values.map((val, i) => {
     const padded = val.padEnd(widths[i])
-    if (highlights && highlights.includes(i)) return c.green(padded)
-    return c.white(padded)
+    if (highlights && highlights.includes(i)) return chalk.green(padded)
+    return chalk.white(padded)
   }).join('')
   console.log(row)
 }
 
-export async function solValue(lamports: number): Promise<string> {
+export function solValue(lamports: number): string {
   return `${(lamports / 1e9).toFixed(4)} SOL`
 }
 
-export async function savingsHighlight(pct: number): Promise<string> {
-  const c = await getChalk()
-  if (pct >= 80) return c.green.bold(`${pct}%`)
-  if (pct >= 50) return c.green(`${pct}%`)
-  if (pct >= 20) return c.yellow(`${pct}%`)
-  return c.white(`${pct}%`)
+export function savingsHighlight(pct: number): string {
+  if (pct >= 80) return chalk.green.bold(`${pct}%`)
+  if (pct >= 50) return chalk.green(`${pct}%`)
+  if (pct >= 20) return chalk.yellow(`${pct}%`)
+  return chalk.white(`${pct}%`)
 }
 
 export function handleError(err: unknown): never {
