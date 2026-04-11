@@ -1,5 +1,6 @@
 import { Connection, PublicKey } from '@solana/web3.js'
 import { calcCost } from '../core/cost-calc'
+import { getRpcUrl } from '../core/rpc'
 import { spinner, heading, info, success, divider, solValue, savingsHighlight, handleError } from '../core/output'
 
 interface AnalyzeOpts {
@@ -7,9 +8,7 @@ interface AnalyzeOpts {
 }
 
 export async function analyze(programId: string, opts: AnalyzeOpts) {
-  const rpc = opts.network === 'mainnet'
-    ? process.env.RPC_URL || 'https://api.mainnet-beta.solana.com'
-    : process.env.DEVNET_RPC_URL || 'https://api.devnet.solana.com'
+  const rpc = getRpcUrl(opts.network)
 
   heading(`compresskit analyze`)
 

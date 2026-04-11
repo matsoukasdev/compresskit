@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import { heading, info, success, spinner } from '../core/output'
+import { heading, info, success, spinner, handleError } from '../core/output'
 import { getTemplateFiles, getTemplateInfo, TemplateType } from '../core/templates'
 
 interface TemplateOpts {
@@ -32,12 +32,17 @@ export function template(type: string, opts: TemplateOpts) {
 
   // create dirs + write files
   let fileCount = 0
-  for (const f of files) {
-    const fullPath = path.join(outDir, f.path)
-    const dir = path.dirname(fullPath)
-    fs.mkdirSync(dir, { recursive: true })
-    fs.writeFileSync(fullPath, f.content, 'utf-8')
-    fileCount++
+  try {
+    for (const f of files) {
+      const fullPath = path.join(outDir, f.path)
+      const dir = path.dirname(fullPath)
+      fs.mkdirSync(dir, { recursive: true })
+      fs.writeFileSync(fullPath, f.content, 'utf-8')
+      fileCount++
+    }
+  } catch (e) {
+    spin.fail('failed to write files')
+    handleError(e)
   }
 
   spin.succeed(`${fileCount} files created`)

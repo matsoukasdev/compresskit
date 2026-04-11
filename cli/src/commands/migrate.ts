@@ -2,6 +2,7 @@ import { Connection, PublicKey } from '@solana/web3.js'
 import { mkdirSync, writeFileSync } from 'fs'
 import { join } from 'path'
 import { calcCost } from '../core/cost-calc'
+import { getRpcUrl } from '../core/rpc'
 import { spinner, heading, info, divider, solValue, success, handleError } from '../core/output'
 
 interface MigrateOpts {
@@ -239,9 +240,7 @@ create_account_with_data(
 }
 
 export async function migrate(programId: string, opts: MigrateOpts) {
-  const rpc = opts.network === 'mainnet'
-    ? process.env.RPC_URL || 'https://api.mainnet-beta.solana.com'
-    : process.env.DEVNET_RPC_URL || 'https://api.devnet.solana.com'
+  const rpc = getRpcUrl(opts.network)
 
   heading(`compresskit migrate — ${opts.network}`)
 

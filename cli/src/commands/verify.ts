@@ -1,4 +1,5 @@
 import { Connection, PublicKey } from '@solana/web3.js'
+import { getRpcUrl } from '../core/rpc'
 import { spinner, heading, info, divider, solValue, success, warn, handleError } from '../core/output'
 
 interface VerifyOpts {
@@ -6,9 +7,7 @@ interface VerifyOpts {
 }
 
 export async function verify(programId: string, opts: VerifyOpts) {
-  const rpc = opts.network === 'mainnet'
-    ? process.env.RPC_URL || 'https://api.mainnet-beta.solana.com'
-    : process.env.DEVNET_RPC_URL || 'https://api.devnet.solana.com'
+  const rpc = getRpcUrl(opts.network)
 
   heading(`compresskit verify — ${opts.network}`)
 
