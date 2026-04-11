@@ -17,54 +17,129 @@ Scan a program for compression opportunities.
 ```
 $ compresskit analyze TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA
 
-  Program Analysis: TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA
+compresskit analyze
 
-  Accounts found:    1,247
-  Average size:      165 bytes
-  Total rent held:   2.891 SOL
+✔ found 1,247 accounts
 
-  Size Distribution:
-  ┌──────────┬───────┬────────────┐
-  │ Size     │ Count │ Rent (SOL) │
-  ├──────────┼───────┼────────────┤
-  │ 0-128 B  │   312 │     0.290  │
-  │ 128-256  │   890 │     2.104  │
-  │ 256-512  │    45 │     0.497  │
-  └──────────┴───────┴────────────┘
+  accounts          1247
+  size groups       3
+  avg size          165 bytes
+  ────────────────────────────────────────
+  estimated rent    2.8910 SOL
+  compressed        0.1446 SOL
+  savings           95%
 
-  Compression savings: ~95% rent reduction
+  ✓ run 'compresskit cost TokenkegQfe...' for breakdown
 ```
 
 ### `compresskit cost <PROGRAM_ID>`
 
-Side-by-side cost comparison.
+Side-by-side cost comparison per account group.
 
 ```
 $ compresskit cost TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA
 
-  Cost Comparison
-  ┌──────────┬───────┬──────────────┬──────────────┬─────────┐
-  │ Size     │ Count │ Regular (SOL)│ Compressed   │ Savings │
-  ├──────────┼───────┼──────────────┼──────────────┼─────────┤
-  │ 0-128 B  │   312 │       0.290  │       0.015  │   95.0% │
-  │ 128-256  │   890 │       2.104  │       0.105  │   95.0% │
-  │ 256-512  │    45 │       0.497  │       0.025  │   95.0% │
-  ├──────────┼───────┼──────────────┼──────────────┼─────────┤
-  │ TOTAL    │ 1,247 │       2.891  │       0.145  │   95.0% │
-  └──────────┴───────┴──────────────┴──────────────┴─────────┘
+compresskit cost — devnet
+
+✔ 1247 accounts loaded
+
+  size        count   regular         compressed      savings
+  ──────────────────────────────────────────────────────────────
+  82 B        312     0.2900 SOL      0.0145 SOL      95%
+  165 B       890     2.1040 SOL      0.1052 SOL      95%
+  340 B       45      0.4970 SOL      0.0249 SOL      95%
+  ──────────────────────────────────────────────────────────────
+  TOTAL       1247    2.8910 SOL      0.1446 SOL      95%
+
+  ✓ save 2.7464 SOL with ZK compression
 ```
 
 ### `compresskit migrate <PROGRAM_ID> [--output ./dir]`
 
-Generate a step-by-step migration plan.
+Generate a migration plan + MIGRATION.md with step-by-step instructions.
+
+```
+$ compresskit migrate 9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin --output ./migration
+
+compresskit migrate — devnet
+
+✔ 48 accounts in 2 groups
+
+  step 1            compress 32 accounts (200 bytes)
+    rent            0.0730 SOL
+    compressed      0.0037 SOL
+    savings         95%
+
+  step 2            compress 16 accounts (512 bytes)
+    rent            0.0694 SOL
+    compressed      0.0035 SOL
+    savings         95%
+
+  ────────────────────────────────────────
+  total savings     0.1352 SOL
+  output            ./migration/MIGRATION.md
+
+  ✓ migration plan written to MIGRATION.md
+```
+
+The generated `MIGRATION.md` includes:
+- Account groups table
+- Cost comparison
+- Rust migration code (Light Protocol SDK)
+- Client-side migration script
+- Verification + rollback plan
 
 ### `compresskit verify <PROGRAM_ID>`
 
-Check how many uncompressed accounts remain after migration.
+Check remaining uncompressed accounts after migration.
+
+```
+$ compresskit verify 9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin
+
+compresskit verify — devnet
+
+✔ verification complete
+
+  program           9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin
+  network           devnet
+  accounts          12
+  rent held         0.0182 SOL
+  ────────────────────────────────────────
+  ⚠ 12 uncompressed accounts remaining
+  next step         run 'compresskit migrate' to generate plan
+```
 
 ### `compresskit template <type> [--output ./dir]`
 
-Scaffold a new project with compression built in. Types: `loyalty`, `gaming`, `social`.
+Scaffold a new project with compression built in.
+
+```
+$ compresskit template loyalty --output ./my-loyalty
+
+compresskit template — loyalty
+
+  type              Loyalty Program (points, tiers, redemption)
+  output            /Users/dev/my-loyalty
+✔ 7 files created
+
+        Cargo.toml  programs/loyalty/Cargo.toml
+          lib.rs    programs/loyalty/src/lib.rs
+      package.json  app/package.json
+        compress.ts app/src/compress.ts
+    Anchor.toml     Anchor.toml
+    .env.example    .env.example
+    README.md       README.md
+
+  ✓ loyalty template ready at /Users/dev/my-loyalty
+  next steps        cd ./my-loyalty && anchor build
+```
+
+Templates: `loyalty` (points/tiers), `gaming` (scores/achievements), `social` (followers/posts).
+
+Each template includes:
+- Anchor program with compressed account patterns
+- TypeScript client with Light Protocol SDK integration
+- Anchor.toml + .env.example + README
 
 ## Options
 
