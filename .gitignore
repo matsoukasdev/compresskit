@@ -4,6 +4,3 @@ build/
 .env
 *.log
 .DS_Store
-WORKLOG.md
-REVIEWS.md
-REFERENCES.md
