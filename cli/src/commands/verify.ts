@@ -1,5 +1,5 @@
-import { Connection, PublicKey } from '@solana/web3.js'
-import { getRpcUrl } from '../core/rpc'
+import { Connection } from '@solana/web3.js'
+import { getRpcUrl, parseProgramId } from '../core/rpc'
 import { spinner, heading, info, divider, solValue, success, warn, handleError } from '../core/output'
 
 interface VerifyOpts {
@@ -7,15 +7,15 @@ interface VerifyOpts {
 }
 
 export async function verify(programId: string, opts: VerifyOpts) {
-  const rpc = getRpcUrl(opts.network)
-
   heading(`compresskit verify — ${opts.network}`)
+
+  const pubkey = parseProgramId(programId)
+  const rpc = getRpcUrl(opts.network)
 
   const spin = spinner(`checking ${programId}...`)
   spin.start()
 
   try {
-    const pubkey = new PublicKey(programId)
     const conn = new Connection(rpc)
     const accounts = await conn.getProgramAccounts(pubkey)
 
