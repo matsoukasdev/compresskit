@@ -1,0 +1,42 @@
+:root {
+  --paper: #f5f0e6;
+  --paper-2: #ebe5d6;
+  --paper-3: #dfd7c3;
+  --ink: #0f0f12;
+  --ink-2: #2b2b31;
+  --ink-3: #5c5a55;
+  --mute: #8c867a;
+  --line: rgba(15, 15, 18, 0.14);
+  --line-bold: rgba(15, 15, 18, 0.3);
+  --coral: #ff4a1c;
+  --coral-soft: #ffe2d6;
+  --moss: #56664a;
+  --plum: #3a2533;
+
+  --ff-display: 'Fraunces', ui-serif, Georgia, serif;
+  --ff-body: 'Inter', -apple-system, system-ui, sans-serif;
+  --ff-mono: 'DM Mono', ui-monospace, Menlo, monospace;
+
+  --rule: 1px solid var(--line);
+  --rule-bold: 1.5px solid var(--ink);
+
+  --grid: clamp(16px, 4vw, 48px);
+  --page: min(1200px, 92vw);
+  --page-wide: min(1360px, 94vw);
+
+  --rad-sm: 3px;
+  --rad-md: 6px;
+  --rad-lg: 10px;
+
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
