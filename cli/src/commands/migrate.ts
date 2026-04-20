@@ -1,8 +1,8 @@
-import { Connection, PublicKey } from '@solana/web3.js'
+import { Connection } from '@solana/web3.js'
 import { mkdirSync, writeFileSync } from 'fs'
 import { join } from 'path'
 import { calcCost } from '../core/cost-calc'
-import { getRpcUrl } from '../core/rpc'
+import { getRpcUrl, parseProgramId } from '../core/rpc'
 import { spinner, heading, info, divider, solValue, success, handleError } from '../core/output'
 
 interface MigrateOpts {
@@ -240,15 +240,15 @@ create_account_with_data(
 }
 
 export async function migrate(programId: string, opts: MigrateOpts) {
-  const rpc = getRpcUrl(opts.network)
-
   heading(`compresskit migrate — ${opts.network}`)
+
+  const pubkey = parseProgramId(programId)
+  const rpc = getRpcUrl(opts.network)
 
   const spin = spinner(`scanning ${programId}...`)
   spin.start()
 
   try {
-    const pubkey = new PublicKey(programId)
     const conn = new Connection(rpc)
     const accounts = await conn.getProgramAccounts(pubkey)
 

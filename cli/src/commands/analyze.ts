@@ -1,6 +1,6 @@
-import { Connection, PublicKey } from '@solana/web3.js'
+import { Connection } from '@solana/web3.js'
 import { calcCost } from '../core/cost-calc'
-import { getRpcUrl } from '../core/rpc'
+import { getRpcUrl, parseProgramId } from '../core/rpc'
 import { spinner, heading, info, success, divider, solValue, savingsHighlight, handleError } from '../core/output'
 
 interface AnalyzeOpts {
@@ -8,15 +8,15 @@ interface AnalyzeOpts {
 }
 
 export async function analyze(programId: string, opts: AnalyzeOpts) {
-  const rpc = getRpcUrl(opts.network)
-
   heading(`compresskit analyze`)
+
+  const pubkey = parseProgramId(programId)
+  const rpc = getRpcUrl(opts.network)
 
   const spin = spinner(`scanning ${programId} on ${opts.network}...`)
   spin.start()
 
   try {
-    const pubkey = new PublicKey(programId)
     const conn = new Connection(rpc)
     const accounts = await conn.getProgramAccounts(pubkey)
 

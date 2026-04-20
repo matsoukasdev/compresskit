@@ -5,6 +5,7 @@ import { getTemplateFiles, getTemplateInfo, TemplateType } from '../core/templat
 
 interface TemplateOpts {
   output: string
+  force?: boolean
 }
 
 const VALID: TemplateType[] = ['loyalty', 'gaming', 'social']
@@ -23,6 +24,13 @@ export function template(type: string, opts: TemplateOpts) {
   heading(`compresskit template — ${tmplType}`)
   info('type', `${tmplInfo.label} (${tmplInfo.desc})`)
   info('output', outDir)
+
+  // refuse to clobber an existing non-empty dir unless --force
+  if (fs.existsSync(outDir) && fs.readdirSync(outDir).length > 0 && !opts.force) {
+    console.error(`\n  error: output dir is not empty: ${outDir}`)
+    console.error('  hint:  pass --force to overwrite, or pick an empty -o path')
+    process.exit(1)
+  }
 
   const spin = spinner('scaffolding project...')
   spin.start()
