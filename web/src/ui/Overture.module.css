@@ -1,0 +1,277 @@
+.over {
+  width: var(--page-wide);
+  margin: clamp(28px, 5vw, 54px) auto 0;
+  padding-bottom: clamp(48px, 7vw, 92px);
+  position: relative;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 180px 1fr 140px;
+  gap: clamp(20px, 3vw, 40px);
+  align-items: start;
+}
+
+.colLeft {
+  position: sticky;
+  top: 80px;
+  border-top: 1.5px solid var(--ink);
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.metaRow {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--ff-mono);
+  font-size: 0.72rem;
+  color: var(--ink-3);
+  letter-spacing: 0.04em;
+}
+
+.metaKey {
+  color: var(--ink);
+}
+
+.folioMark {
+  font-size: 3rem;
+  color: var(--coral);
+  line-height: 1;
+  font-family: var(--ff-display);
+  transform: translateY(4px);
+}
+
+.colMain {
+  position: relative;
+  border-top: 1.5px solid var(--ink);
+  padding-top: 8px;
+}
+
+.kicker {
+  font-family: var(--ff-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 14px;
+}
+
+.shipped {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 12px 7px 10px;
+  margin-bottom: clamp(20px, 3vw, 32px);
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  font-family: var(--ff-mono);
+  font-size: 0.76rem;
+  color: var(--ink-2);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+.shippedDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--moss);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--moss) 30%, transparent);
+  animation: pulse 2.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.25); }
+}
+
+.shippedKey {
+  color: var(--ink);
+}
+
+.shippedSep {
+  color: var(--line-bold);
+}
+
+.shippedSay {
+  font-family: var(--ff-display);
+  font-style: italic;
+  font-variation-settings: 'opsz' 72, 'SOFT' 100, 'wght' 340;
+  font-size: 0.95rem;
+  color: var(--coral);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+@media (max-width: 520px) {
+  .shipped {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  .shippedSep {
+    display: none;
+  }
+}
+
+.headline {
+  font-family: var(--ff-display);
+  font-variation-settings: 'opsz' 144, 'SOFT' 20, 'wght' 380;
+  font-size: clamp(2.6rem, 8.4vw, 7rem);
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+  margin: 0;
+}
+
+.em {
+  font-style: italic;
+  color: var(--coral);
+  font-variation-settings: 'opsz' 144, 'SOFT' 100, 'wght' 340;
+  white-space: nowrap;
+  position: relative;
+}
+
+.em::before {
+  content: '';
+  position: absolute;
+  left: -0.05em;
+  right: -0.05em;
+  bottom: 0.1em;
+  height: 0.12em;
+  background: var(--coral);
+  opacity: 0.22;
+  transform: skewX(-12deg);
+}
+
+.tail {
+  color: var(--ink);
+}
+
+.lede {
+  margin-top: clamp(24px, 3vw, 36px);
+  max-width: 42em;
+  font-size: clamp(1rem, 1.25vw, 1.1rem);
+  color: var(--ink-2);
+  line-height: 1.6;
+}
+
+.install {
+  margin-top: clamp(28px, 3.5vw, 40px);
+  max-width: 36rem;
+}
+
+.installRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border: 1.5px solid var(--ink);
+  border-radius: 2px;
+  background: var(--paper);
+  box-shadow: 4px 4px 0 var(--ink);
+  font-family: var(--ff-mono);
+}
+
+.installRow code {
+  flex: 1;
+  font-size: 0.95rem;
+}
+
+.installDollar {
+  color: var(--coral);
+  font-weight: 500;
+}
+
+.copy {
+  font-family: var(--ff-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  border: 1px solid var(--line-bold);
+  border-radius: 2px;
+  transition: all 0.2s var(--ease);
+}
+
+.copy:hover {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+.copy[data-state='copied'] {
+  background: var(--moss);
+  color: var(--paper);
+  border-color: var(--moss);
+}
+
+.copy[data-state='failed'] {
+  background: var(--coral);
+  color: var(--paper);
+  border-color: var(--coral);
+}
+
+.installNote {
+  margin-top: 10px;
+  font-size: 0.82rem;
+  color: var(--ink-3);
+}
+
+.colFolio {
+  position: sticky;
+  top: 80px;
+  justify-self: end;
+  text-align: right;
+  border-top: 1.5px solid var(--ink);
+  padding-top: 6px;
+  display: flex;
+  flex-direction: column;
+}
+
+.folioBig {
+  font-family: var(--ff-display);
+  font-size: 3.6rem;
+  line-height: 1;
+  font-variation-settings: 'opsz' 144, 'SOFT' 0, 'wght' 300;
+}
+
+.folioLabel {
+  font-family: var(--ff-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  color: var(--ink-3);
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+
+.folioYear {
+  font-family: var(--ff-mono);
+  font-size: 0.7rem;
+  color: var(--ink-3);
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
+@media (max-width: 940px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .colLeft,
+  .colFolio {
+    position: static;
+  }
+  .colFolio {
+    justify-self: start;
+    text-align: left;
+  }
+  .folioBig {
+    font-size: 2.4rem;
+  }
+}
