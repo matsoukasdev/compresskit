@@ -23,18 +23,30 @@ cli
   .command('analyze <programId>')
   .addOption(networkOption())
   .description('analyze program accounts for compression')
+  .addHelpText('after', `
+Example:
+  $ compresskit analyze 9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin
+  $ compresskit analyze <id> -n mainnet`)
   .action(analyze)
 
 cli
   .command('cost <programId>')
   .addOption(networkOption())
   .description('compare regular vs compressed costs')
+  .addHelpText('after', `
+Example:
+  $ compresskit cost <programId>`)
   .action(cost)
 
 cli
   .command('template <type>')
   .option('-o, --output <dir>', 'output directory', '.')
+  .option('-f, --force', 'overwrite files if the output dir is non-empty')
   .description('scaffold compressed project (loyalty, gaming, social)')
+  .addHelpText('after', `
+Example:
+  $ compresskit template loyalty -o ./my-loyalty
+  $ compresskit template gaming --force`)
   .action(template)
 
 cli
@@ -42,12 +54,18 @@ cli
   .addOption(networkOption())
   .option('-o, --output <dir>', 'output directory', '.')
   .description('generate migration plan for ZK compression')
+  .addHelpText('after', `
+Example:
+  $ compresskit migrate <programId> -o ./migration`)
   .action(migrate)
 
 cli
   .command('verify <programId>')
   .addOption(networkOption())
   .description('verify compression migration status')
+  .addHelpText('after', `
+Example:
+  $ compresskit verify <programId>`)
   .action(verify)
 
 cli.parse()
