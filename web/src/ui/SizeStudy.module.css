@@ -1,0 +1,249 @@
+.study {
+  width: var(--page-wide);
+  margin: 0 auto;
+  padding: clamp(48px, 7vw, 96px) 0;
+  border-top: 1.5px solid var(--ink);
+}
+
+.head {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: clamp(18px, 3vw, 40px);
+  align-items: end;
+  margin-bottom: clamp(32px, 4vw, 56px);
+}
+
+.headLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.plate {
+  font-family: var(--ff-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  color: var(--coral);
+}
+
+.title {
+  font-family: var(--ff-display);
+  font-size: clamp(1.9rem, 4.2vw, 3.5rem);
+  line-height: 1;
+  letter-spacing: -0.025em;
+  font-variation-settings: 'opsz' 144, 'SOFT' 20, 'wght' 380;
+}
+
+.title em {
+  font-style: italic;
+  font-variation-settings: 'opsz' 144, 'SOFT' 100, 'wght' 360;
+  color: var(--ink-2);
+}
+
+.caption {
+  color: var(--ink-3);
+  font-size: 0.95rem;
+  max-width: 28em;
+  line-height: 1.55;
+}
+
+.toggle {
+  display: inline-flex;
+  border: 1.5px solid var(--ink);
+  border-radius: 2px;
+  overflow: hidden;
+  height: fit-content;
+  justify-self: end;
+}
+
+.toggleOn,
+.toggleOff {
+  padding: 10px 16px;
+  font-family: var(--ff-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: all 0.25s var(--ease);
+}
+
+.toggleOn {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.toggleOff {
+  background: transparent;
+  color: var(--ink);
+}
+
+.toggleOn + .toggleOff,
+.toggleOff + .toggleOn {
+  border-left: 1.5px solid var(--ink);
+}
+
+.stage {
+  display: grid;
+  grid-template-columns: 60px repeat(3, 1fr) 240px;
+  gap: clamp(16px, 3vw, 40px);
+  align-items: end;
+  height: 460px;
+  padding: 20px 0 10px;
+  position: relative;
+  border-top: 1px solid var(--line);
+  border-bottom: 1.5px solid var(--ink);
+}
+
+.ticks {
+  position: relative;
+  height: 100%;
+  padding-right: 10px;
+  border-right: 1px dashed var(--line-bold);
+}
+
+.tick {
+  position: absolute;
+  right: 14px;
+  transform: translateY(50%);
+  font-family: var(--ff-mono);
+  font-size: 0.68rem;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.tick::after {
+  content: '';
+  position: absolute;
+  right: -14px;
+  top: 50%;
+  width: 8px;
+  height: 1px;
+  background: var(--line-bold);
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+}
+
+.colTrack {
+  position: relative;
+  flex: 1;
+  border-left: 1px dashed var(--line);
+  border-right: 1px dashed var(--line);
+}
+
+.colGhost {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 0;
+  background: transparent;
+  border: 1px dashed var(--line-bold);
+  pointer-events: none;
+}
+
+.colBar {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 0;
+  transition: height 1.6s var(--ease), background-color 0.9s var(--ease);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 8px;
+}
+
+.colNum {
+  font-family: var(--ff-mono);
+  font-size: 0.74rem;
+  color: var(--paper);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+.colMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: var(--ff-mono);
+  font-size: 0.78rem;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+}
+
+.colSize {
+  letter-spacing: 0.05em;
+}
+
+.colCount {
+  color: var(--ink-3);
+}
+
+.sum {
+  padding: 20px 22px;
+  border: 1.5px solid var(--ink);
+  background: var(--paper);
+  box-shadow: 4px 4px 0 var(--ink);
+  height: fit-content;
+  align-self: end;
+}
+
+.sumRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 6px 0;
+  font-family: var(--ff-mono);
+  font-size: 0.88rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.sumKey {
+  color: var(--ink-3);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  align-self: center;
+}
+
+.sumVal {
+  font-size: 1rem;
+}
+
+.sumValCoral {
+  color: var(--coral);
+  font-size: 1rem;
+}
+
+.sumValBig {
+  font-family: var(--ff-display);
+  font-size: 1.6rem;
+  font-variation-settings: 'opsz' 72, 'SOFT' 40, 'wght' 400;
+}
+
+.sumRule {
+  height: 1.5px;
+  background: var(--ink);
+  border: 0;
+  margin: 8px 0;
+}
+
+@media (max-width: 1000px) {
+  .head {
+    grid-template-columns: 1fr;
+  }
+  .toggle {
+    justify-self: start;
+  }
+  .stage {
+    grid-template-columns: 40px repeat(3, 1fr);
+    height: 360px;
+  }
+  .sum {
+    grid-column: 1 / -1;
+    margin-top: 16px;
+  }
+}
