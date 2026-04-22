@@ -21,6 +21,8 @@ function fieldSize(typ: unknown): number {
   if (typeof typ === 'object' && typ !== null) {
     const t = typ as Record<string, unknown>
 
+    // `defined` refers to a custom type declared elsewhere in the IDL.
+    // Resolving exact size needs IDL type lookup — fall back to pubkey width.
     if (t.defined) return 32
     if (t.option) return 1 + fieldSize(t.option)
 

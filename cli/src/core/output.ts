@@ -58,12 +58,18 @@ export function savingsHighlight(pct: number): string {
 export function handleError(err: unknown): never {
   const msg = err instanceof Error ? err.message : String(err)
 
-  if (msg.includes('Invalid public key')) {
+  if (msg.includes('excluded from account secondary indexes')) {
+    console.error('\n  error: public RPC refused getProgramAccounts for this program')
+    console.error('  hint:  set DEVNET_RPC_URL to a premium RPC (Helius / Triton / QuickNode)')
+  } else if (msg.includes('Non-base58 character') || msg.includes('Invalid public key')) {
     console.error('\n  error: invalid program ID — must be a base58 Solana address')
-  } else if (msg.includes('fetch failed') || msg.includes('ECONNREFUSED')) {
-    console.error('\n  error: RPC connection failed — check your network or RPC_URL')
+  } else if (msg.includes('403') || msg.includes('Forbidden')) {
+    console.error('\n  error: RPC blocked this request (403)')
+    console.error('  hint:  set DEVNET_RPC_URL or RPC_URL to your own endpoint')
   } else if (msg.includes('429') || msg.includes('Too Many Requests')) {
-    console.error('\n  error: rate limited — try again in a few seconds')
+    console.error('\n  error: rate limited (429) — try again in a few seconds')
+  } else if (msg.includes('fetch failed') || msg.includes('ECONNREFUSED')) {
+    console.error('\n  error: RPC connection failed — check network or RPC_URL')
   } else {
     console.error(`\n  error: ${msg}`)
   }
