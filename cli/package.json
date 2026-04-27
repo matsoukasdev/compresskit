@@ -35,8 +35,10 @@
   "scripts": {
     "dev": "ts-node src/index.ts",
     "build": "tsc",
+    "watch": "tsc --watch --preserveWatchOutput",
+    "clean": "rm -rf dist tsconfig.tsbuildinfo",
     "start": "node dist/index.js",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run clean && npm run build"
   },
   "dependencies": {
     "@coral-xyz/anchor": "^0.30.1",

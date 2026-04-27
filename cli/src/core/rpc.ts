@@ -5,6 +5,8 @@
 import { PublicKey } from '@solana/web3.js'
 
 export function getRpcUrl(network: string): string {
+  // single override knob — beats per-network env vars when set
+  if (process.env.COMPRESSKIT_RPC_URL) return process.env.COMPRESSKIT_RPC_URL
   return network === 'mainnet'
     ? process.env.RPC_URL || 'https://api.mainnet-beta.solana.com'
     : process.env.DEVNET_RPC_URL || 'https://api.devnet.solana.com'

@@ -5,25 +5,31 @@ import { spinner, heading, info, success, divider, solValue, savingsHighlight, h
 
 interface AnalyzeOpts {
   network: string
+  json?: boolean
 }
 
 export async function analyze(programId: string, opts: AnalyzeOpts) {
-  heading(`compresskit analyze`)
+  const useJson = !!opts.json
+  if (!useJson) heading(`compresskit analyze`)
 
   const pubkey = parseProgramId(programId)
   const rpc = getRpcUrl(opts.network)
 
-  const spin = spinner(`scanning ${programId} on ${opts.network}...`)
-  spin.start()
+  const spin = useJson ? null : spinner(`scanning ${programId} on ${opts.network}...`)
+  spin?.start()
 
   try {
     const conn = new Connection(rpc)
     const accounts = await conn.getProgramAccounts(pubkey)
 
-    spin.succeed(`found ${accounts.length} accounts`)
+    spin?.succeed(`found ${accounts.length} accounts`)
 
     if (accounts.length === 0) {
-      info('status', 'no accounts — nothing to compress')
+      if (useJson) {
+        process.stdout.write(JSON.stringify({ programId, network: opts.network, accounts: 0, status: 'empty' }) + '\n')
+      } else {
+        info('status', 'no accounts — nothing to compress')
+      }
       return
     }
 
@@ -38,6 +44,20 @@ export async function analyze(programId: string, opts: AnalyzeOpts) {
     const avgSize = Math.round(totalSize / accounts.length)
     const report = calcCost(avgSize, accounts.length)
 
+    if (useJson) {
+      process.stdout.write(JSON.stringify({
+        programId,
+        network: opts.network,
+        accounts: accounts.length,
+        sizeGroups: Object.keys(sizeGroups).length,
+        avgSize,
+        estimatedRentSol: report.regularCost,
+        compressedSol: report.compressedCost,
+        savingsPct: report.savingsPct,
+      }) + '\n')
+      return
+    }
+
     console.log('')
     info('accounts', accounts.length)
     info('size groups', Object.keys(sizeGroups).length)
@@ -49,7 +69,11 @@ export async function analyze(programId: string, opts: AnalyzeOpts) {
     success(`run 'compresskit cost ${programId}' for breakdown`)
 
   } catch (e) {
-    spin.fail('analysis failed')
+    spin?.fail('analysis failed')
+    if (useJson) {
+      process.stdout.write(JSON.stringify({ programId, network: opts.network, error: String(e) }) + '\n')
+      process.exit(1)
+    }
     handleError(e)
   }
 }
