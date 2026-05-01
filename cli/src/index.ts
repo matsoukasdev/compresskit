@@ -22,11 +22,13 @@ cli
 cli
   .command('analyze <programId>')
   .addOption(networkOption())
+  .option('--json', 'output a single json line for ci pipelines')
   .description('analyze program accounts for compression')
   .addHelpText('after', `
 Example:
   $ compresskit analyze 9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin
-  $ compresskit analyze <id> -n mainnet`)
+  $ compresskit analyze <id> -n mainnet
+  $ compresskit analyze <id> --json | jq .savingsPct`)
   .action(analyze)
 
 cli
