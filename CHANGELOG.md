@@ -2,6 +2,17 @@
 
 all notable changes to compresskit cli.
 
+## [unreleased]
+
+### added
+- error code reference at cli/docs/error-codes.md (12 stable codes 100-200)
+- sample loyalty IDL at cli/samples/idl.json for parser smoke tests
+- analyze --json output mode
+
+### changed
+- help text widened to 100 chars for nicer column alignment
+- analyze emits 200 exit on success (was 0) to match new error-code scheme
+
 ## [0.1.0] — first publish
 
 - npm publish under `@dominator/compresskit`
