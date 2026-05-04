@@ -1,44 +1,14 @@
 {
-  "name": "@dominator/compresskit",
+  "name": "compresskit",
   "version": "0.1.0",
-  "description": "ZK Compression migration toolkit for Solana — analyze, cost, migrate, and scaffold compressed accounts.",
-  "keywords": [
-    "solana",
-    "zk-compression",
-    "light-protocol",
-    "anchor",
-    "cli",
-    "migration"
-  ],
-  "homepage": "https://github.com/matsoukasdev/compresskit#readme",
-  "bugs": "https://github.com/matsoukasdev/compresskit/issues",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/matsoukasdev/compresskit.git"
-  },
-  "license": "MIT",
-  "author": "matsoukasdev",
+  "description": "ZK Compression migration toolkit for Solana",
   "bin": {
-    "compresskit": "dist/index.js"
-  },
-  "files": [
-    "dist",
-    "README.md",
-    "LICENSE"
-  ],
-  "engines": {
-    "node": ">=18"
-  },
-  "publishConfig": {
-    "access": "public"
+    "compresskit": "./dist/index.js"
   },
   "scripts": {
     "dev": "ts-node src/index.ts",
     "build": "tsc",
-    "watch": "tsc --watch --preserveWatchOutput",
-    "clean": "rm -rf dist tsconfig.tsbuildinfo",
-    "start": "node dist/index.js",
-    "prepublishOnly": "npm run clean && npm run build"
+    "start": "node dist/index.js"
   },
   "dependencies": {
     "@coral-xyz/anchor": "^0.30.1",

@@ -1,24 +1,9 @@
 /**
- * Shared RPC URL resolution + program id parsing for network commands.
+ * Shared RPC URL resolution for all network-aware commands.
  */
 
-import { PublicKey } from '@solana/web3.js'
-
 export function getRpcUrl(network: string): string {
-  // single override knob — beats per-network env vars when set
-  if (process.env.COMPRESSKIT_RPC_URL) return process.env.COMPRESSKIT_RPC_URL
   return network === 'mainnet'
     ? process.env.RPC_URL || 'https://api.mainnet-beta.solana.com'
     : process.env.DEVNET_RPC_URL || 'https://api.devnet.solana.com'
-}
-
-export function parseProgramId(id: string): PublicKey {
-  try {
-    return new PublicKey(id)
-  } catch {
-    console.error(
-      '\n  error: invalid program ID — must be a base58 Solana address'
-    )
-    process.exit(1)
-  }
 }

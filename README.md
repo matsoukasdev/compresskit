@@ -1,7 +1,5 @@
 # compresskit
 
-![npm](https://img.shields.io/badge/npm-compresskit-cb3837?style=flat-square) ![ci](https://img.shields.io/badge/ci-passing-3fb950?style=flat-square) ![status](https://img.shields.io/badge/status-experimental-d4a017?style=flat-square)
-
 CLI toolkit for migrating Solana programs to ZK Compression.
 
 ## Install
@@ -9,8 +7,6 @@ CLI toolkit for migrating Solana programs to ZK Compression.
 ```bash
 npm install -g compresskit
 ```
-
-A specimen-book landing page with rendered output samples lives at [compresskit-cli.vercel.app](https://compresskit-cli.vercel.app) — useful if you want to see the analyze / cost / migrate output before installing.
 
 ## Commands
 
@@ -149,11 +145,11 @@ Each template includes:
 
 All commands accept `-n, --network <devnet|mainnet>` (default: `devnet`).
 
-## moving parts
+## Stack
 
 TypeScript CLI built with commander.js, chalk, and ora.
 
-## Hacking on it
+## Dev
 
 ```bash
 cd cli
@@ -164,4 +160,4 @@ node dist/index.js analyze <PROGRAM_ID>
 
 ## License
 
-mit. repo — [LICENSE](LICENSE). published cli ships its own copy at [cli/LICENSE](cli/LICENSE) (same terms, same handle).
+MIT
