@@ -1,7 +1,7 @@
 import { Connection } from '@solana/web3.js'
 import { calcCost } from '../core/cost-calc'
 import { getRpcUrl, parseProgramId } from '../core/rpc'
-import { spinner, heading, info, success, divider, solValue, savingsHighlight, handleError } from '../core/output'
+import { spinner, heading, info, success, divider, solValue, savingsHighlight, handleError, tableHeader, tableRow } from '../core/output'
 
 interface AnalyzeOpts {
   network: string
@@ -66,6 +66,21 @@ export async function analyze(programId: string, opts: AnalyzeOpts) {
     info('estimated rent', solValue(report.regularCost))
     info('compressed', solValue(report.compressedCost))
     info('savings', savingsHighlight(report.savingsPct))
+
+    // per-size-bucket breakdown — top 3 buckets by account count
+    const sortedBuckets = Object.entries(sizeGroups)
+      .sort(([, a], [, b]) => (b as number) - (a as number))
+      .slice(0, 3)
+    if (sortedBuckets.length > 0) {
+      console.log('')
+      tableHeader(['bucket', 'count', 'share'], [14, 10, 10])
+      const total = accounts.length || 1
+      for (const [size, count] of sortedBuckets) {
+        const pct = `${Math.round(((count as number) / total) * 100)}%`
+        tableRow([`${size}b`, String(count), pct], [14, 10, 10])
+      }
+    }
+
     success(`run 'compresskit cost ${programId}' for breakdown`)
 
   } catch (e) {
