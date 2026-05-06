@@ -17,6 +17,12 @@ export function info(label: string, value: string | number) {
   console.log(`  ${chalk.gray(label.padEnd(18))}${chalk.white(String(value))}`)
 }
 
+// dim variant for non-actionable bookkeeping rows — reports look noisier
+// than they are when every line ships at full white intensity
+export function infoDim(label: string, value: string | number) {
+  console.log(`  ${chalk.dim(label.padEnd(18))}${chalk.dim(String(value))}`)
+}
+
 export function success(text: string) {
   console.log(`\n  ${chalk.green('✓')} ${chalk.green(text)}`)
 }
