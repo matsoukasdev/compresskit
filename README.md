@@ -149,11 +149,11 @@ Each template includes:
 
 All commands accept `-n, --network <devnet|mainnet>` (default: `devnet`).
 
-## Stack
+## moving parts
 
 TypeScript CLI built with commander.js, chalk, and ora.
 
-## Dev
+## Hacking on it
 
 ```bash
 cd cli
@@ -164,4 +164,4 @@ node dist/index.js analyze <PROGRAM_ID>
 
 ## License
 
-MIT
+mit. repo — [LICENSE](LICENSE). published cli ships its own copy at [cli/LICENSE](cli/LICENSE) (same terms, same handle).
