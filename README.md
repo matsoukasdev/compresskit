@@ -164,4 +164,4 @@ node dist/index.js analyze <PROGRAM_ID>
 
 ## License
 
-MIT
+mit. repo — [LICENSE](LICENSE). published cli ships its own copy at [cli/LICENSE](cli/LICENSE) (same terms, same handle).
