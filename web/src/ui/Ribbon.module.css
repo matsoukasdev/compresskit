@@ -1,0 +1,115 @@
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: color-mix(in srgb, var(--paper) 92%, transparent);
+  backdrop-filter: saturate(1.1) blur(10px);
+  -webkit-backdrop-filter: saturate(1.1) blur(10px);
+}
+
+.inner {
+  width: var(--page-wide);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 2rem;
+  padding: 14px 0 12px;
+}
+
+.mark {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.55rem;
+}
+
+.markGlyph {
+  font-size: 1.1rem;
+  color: var(--coral);
+  transform: translateY(2px);
+}
+
+.markWord {
+  font-family: var(--ff-display);
+  font-weight: 500;
+  font-size: 1.2rem;
+  letter-spacing: -0.01em;
+  font-variation-settings: 'opsz' 40, 'SOFT' 30;
+}
+
+.markVer {
+  font-family: var(--ff-mono);
+  font-size: 0.72rem;
+  color: var(--ink-3);
+  padding: 2px 6px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  transform: translateY(-1px);
+}
+
+.nav {
+  justify-self: center;
+  display: flex;
+  gap: 1.7rem;
+  font-size: 0.88rem;
+  color: var(--ink-2);
+}
+
+.nav a {
+  position: relative;
+  padding-bottom: 3px;
+  transition: color 0.25s var(--ease);
+}
+
+.nav a:hover {
+  color: var(--coral);
+}
+
+.gh {
+  font-family: var(--ff-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+}
+
+.meta {
+  justify-self: end;
+  font-family: var(--ff-mono);
+  font-size: 0.72rem;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.ruleBold {
+  height: 1.5px;
+  background: var(--ink);
+  width: 100%;
+}
+
+@media (max-width: 820px) {
+  .inner {
+    grid-template-columns: auto 1fr;
+    gap: 0.8rem;
+    padding: 12px 0;
+  }
+  .nav {
+    justify-self: end;
+    gap: 0.9rem;
+    font-size: 0.78rem;
+  }
+  .gh {
+    display: none;
+  }
+  .meta {
+    display: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .nav {
+    gap: 0.7rem;
+    font-size: 0.72rem;
+  }
+  .markVer {
+    display: none;
+  }
+}
