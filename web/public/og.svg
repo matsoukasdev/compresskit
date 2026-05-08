@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f4efe6"/>
+  <g stroke="#1a1714" stroke-width="1.5" fill="none">
+    <line x1="80" y1="80" x2="1120" y2="80"/>
+    <line x1="80" y1="550" x2="1120" y2="550"/>
+    <line x1="80" y1="80" x2="80" y2="550"/>
+    <line x1="1120" y1="80" x2="1120" y2="550"/>
+  </g>
+  <g font-family="monospace" fill="#5a4a3a">
+    <text x="120" y="130" font-size="14" letter-spacing="6">A SPECIMEN BOOK · NO. 0.1.0</text>
+    <text x="1080" y="130" font-size="14" letter-spacing="3" text-anchor="end">@dominator/compresskit</text>
+  </g>
+  <line x1="120" y1="148" x2="1080" y2="148" stroke="#1a1714" stroke-width="0.5"/>
+  <g font-family="serif">
+    <text x="120" y="280" font-size="156" font-weight="700" fill="#1a1714" letter-spacing="-4" font-style="italic">compresskit</text>
+    <text x="120" y="350" font-size="32" fill="#3a2f24" font-style="italic">— for the Solana program who would&#8202;</text>
+    <text x="120" y="392" font-size="32" fill="#3a2f24" font-style="italic">spend less rent, &amp; see further.</text>
+  </g>
+  <g transform="translate(120,440)" font-family="monospace" font-size="20">
+    <text x="0" y="0" fill="#7a4a1a">$</text>
+    <text x="22" y="0" fill="#1a1714">npx @dominator/compresskit analyze ./program</text>
+  </g>
+  <g transform="translate(120,475)" font-family="monospace" font-size="14" fill="#5a4a3a">
+    <text x="0" y="0">→ analyzed 47 accounts · est. 95% rent saved · 3 migration steps</text>
+  </g>
+  <g transform="translate(880,180)" font-family="serif" fill="#1a1714">
+    <text x="0" y="0" font-size="200" font-weight="900" letter-spacing="-12" font-style="italic">95</text>
+    <text x="180" y="20" font-size="40">%</text>
+    <text x="0" y="40" font-size="14" font-family="monospace" letter-spacing="4" fill="#7a4a1a">RENT SAVINGS</text>
+  </g>
+  <line x1="120" y1="510" x2="1080" y2="510" stroke="#1a1714" stroke-width="0.5"/>
+  <g font-family="monospace" fill="#7a6a5a" font-size="12">
+    <text x="120" y="538" letter-spacing="3">FIVE COMMANDS · ANALYZE · MIGRATE · DEPLOY · MONITOR · COMPARE</text>
+    <text x="1080" y="538" letter-spacing="3" text-anchor="end">npm i -g @dominator/compresskit</text>
+  </g>
+</svg>
