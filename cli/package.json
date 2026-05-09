@@ -1,6 +1,6 @@
 {
-  "name": "@dominator/compresskit",
-  "version": "0.1.0",
+  "name": "compresskit-cli",
+  "version": "0.1.1",
   "description": "ZK Compression migration toolkit for Solana — analyze, cost, migrate, and scaffold compressed accounts.",
   "keywords": [
     "solana",

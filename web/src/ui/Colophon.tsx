@@ -20,7 +20,7 @@ export function Colophon() {
           <div className={styles.cta}>
             <div className={styles.ctaRow}>
               <span className={styles.dollar}>$</span>
-              <code>npm i -g @dominator/compresskit</code>
+              <code>npm i -g compresskit-cli</code>
             </div>
             <a
               className={styles.ghLink}

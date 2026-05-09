@@ -78,7 +78,7 @@ function InstallBlock() {
   }, [])
 
   const onCopy = async () => {
-    const cmd = 'npm i -g @dominator/compresskit'
+    const cmd = 'npm i -g compresskit-cli'
     try {
       if (!navigator.clipboard?.writeText) throw new Error('no clipboard')
       await navigator.clipboard.writeText(cmd)
@@ -96,7 +96,7 @@ function InstallBlock() {
     <div id="install" className={styles.install}>
       <div className={styles.installRow}>
         <span className={styles.installDollar}>$</span>
-        <code>npm i -g @dominator/compresskit</code>
+        <code>npm i -g compresskit-cli</code>
         <button
           className={styles.copy}
           onClick={onCopy}
