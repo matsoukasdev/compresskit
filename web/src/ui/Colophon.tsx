@@ -30,6 +30,14 @@ export function Colophon() {
             >
               View on GitHub ↗
             </a>
+            <a
+              className={styles.ghLink}
+              href="https://compresskit.gitbook.io/compresskit-docs/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Read the Docs ↗
+            </a>
           </div>
         </div>
 
